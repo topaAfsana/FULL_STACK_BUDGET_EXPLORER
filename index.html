@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="styleSheet" href="mycss.css"></head>
+
+<title>CONSUME REST-ORIGINAL</title>
+	<script>
+		var tbltop=`<table class="ExpenseTable">
+				<tr><th>ID</th><th>EXPENSE</th><th>AMOUNT</th></tr>`;
+var tbl;
+// //=======
+// //WORKS WITHOUT PARAM
+// // 1.
+// 		function addRecord(){
+
+// 			var xmlhttp1= new XMLHttpRequest();
+
+// 			//ADD RECORD
+// 			var addRecordUrl="http://localhost:8080/add_record";
+			
+// 			xmlhttp1.onreadystatechange = function() {
+// 			if(xmlhttp1.readyState===4 & xmlhttp1.status===200){
+// 				// var resp = JSON.parse(xmlhttp1.responseText);	
+// 				// console.log("RESPONSE IS"+resp);
+// 			}}
+// xmlhttp1.open("GET",addRecordUrl+"/",true);
+// 			xmlhttp1.setRequestHeader('Content-Type', 'application/json');
+// 			xmlhttp1.send();
+// 		}
+// //=======
+
+
+function createTable(){
+
+			 var mytable=document.querySelector("#expenseTable").value;
+	 
+
+			var xmlhttp_create= new XMLHttpRequest();
+
+			//ADD RECORD
+			var createTableUrl="http://localhost:8080/create_table";
+			var param="tableName="+mytable+"";
+			
+			xmlhttp_create.onreadystatechange = function() {
+			if(xmlhttp_create.readyState===4 & xmlhttp_create.status===200){
+				// var resp = JSON.parse(xmlhttp1.responseText);	
+				alert(xmlhttp_create.responseText);
+				// console.log("RESPONSE IS"+resp);
+			}}
+			xmlhttp_create.open("POST",createTableUrl+"?"+param,true);
+			xmlhttp_create.setRequestHeader('Content-Type', 'application/json');
+			xmlhttp_create.send(null);
+			var mytable=document.querySelector("#expenseTable").value= '';
+	 
+		}
+
+//=======
+
+function findTable(){
+
+			 var myQuerytable=document.querySelector("#myTable").value;
+	 
+
+			var xmlhttp_find= new XMLHttpRequest();
+
+			//ADD RECORD
+			var findTableUrl="http://localhost:8080/find_table";
+			var param="tableName="+myQuerytable+"";
+			
+
+			xmlhttp_find.onreadystatechange = function() {
+				var tableDiv= document.querySelector("div").innerHTML;
+			if(xmlhttp_find.readyState===4 & xmlhttp_find.status===200){
+				var response=xmlhttp_find.responseText;
+				alert(response);
+				if (response === "FOUND"){
+					loadPersons();
+				}
+
+				// else if(response !== "FOUND" || tableDiv !== null){
+				// 	clearTable();
+				// 	alert("DONE-YOUR EXPENSE LIST DOES NOT EXIST;PLEASE CRAETE ONE")}
+				else { 
+					clearTable();
+					// alert("YOUR EXPENSE LIST DOES NOT EXIST;PLEASE CRAETE ONE;")
+
+				};
+
+
+			}}
+			xmlhttp_find.open("GET",findTableUrl+"?"+param,true);
+			xmlhttp_find.setRequestHeader('Content-Type', 'application/json');
+			xmlhttp_find.send(null);
+
+			
+			// var mytable=document.querySelector("#expenseTable").value= '';
+	 
+		}
+
+		// ===
+function clearTable(){
+	
+	document.querySelector("div").innerHTML = tbltop;
+}
+
+//WORKS WITH PARAM
+1.
+		function addRecord(){
+
+			 var myexpense=document.querySelector("#itemId").value;
+	 		var myamount= document.querySelector("#costId").value;
+	 	 	var myTable= document.querySelector("#myTable").value;
+
+	 
+
+			var xmlhttp1= new XMLHttpRequest();
+
+			//ADD RECORD
+			var addRecordUrl="http://localhost:8080/add_record";
+			var param="tableName="+myTable+"&expense="+myexpense+"&amount="+myamount+"";
+			
+			xmlhttp1.onreadystatechange = function() {
+			if(xmlhttp1.readyState===4 & xmlhttp1.status===200){
+				// var resp = JSON.parse(xmlhttp1.responseText);	
+				alert(xmlhttp1.responseText);
+				// console.log("RESPONSE IS"+resp);
+			}}
+			xmlhttp1.open("POST",addRecordUrl+"?"+param,true);
+			xmlhttp1.setRequestHeader('Content-Type', 'application/json');
+			xmlhttp1.send(null);
+			document.getElementById('itemId').value= '';
+	 document.getElementById('costId').value= '';
+	 // document.querySelector("#myTable").value= '';
+		}
+// =======
+
+
+//=======
+		// 2.
+		
+	//=======
+	function addAndLoad(){
+		loadPersons();
+		addRecord();
+	}
+
+
+
+	window.onload= function(){
+		// loadPersons();
+		// addRecord();
+	}
+
+//=======
+function loadPersons() {
+
+			var myQuerytable=document.querySelector("#myTable").value;
+			
+			//TOPAARTIFACT2
+		var baseurl="http://localhost:8080/showAllRecord";
+		var xmlhttp= new XMLHttpRequest();
+		var param="tableName="+myQuerytable+"";
+		xmlhttp.open("GET",baseurl+"?"+param,true);
+
+		xmlhttp.onreadystatechange = function() {
+			if(xmlhttp.readyState===4 & xmlhttp.status===200){
+				var expenses = JSON.parse(xmlhttp.responseText);	
+				console.log(expenses);
+				// ---
+				var main= "";
+				var sum=0;
+
+				for (i=0;i<expenses.length;i++){
+					main += "<tr><td>"+expenses[i].id+"</td><td>"+expenses[i].expense+"</td><td>"+expenses[i].amount+"</td></tr>";
+					sum+=expenses[i].amount;
+				}
+
+				console.log("Sum is "+sum);
+
+				var tblbottom= "</table>";
+				tbl=tbltop + main + tblbottom;
+				// document.getElementById("personinfo").innerHTML = tbl;
+				// var name=persons[0].name;
+
+				var test= "";
+				for (i=0;i<expenses.length;i++){ test+= expenses[i].id+ expenses[i].name+expenses[i].email;}
+				// document.querySelector("div").innerHTML = main+tbltop+test;
+			document.querySelector("div").innerHTML = tbl+"TOTAL:"+sum;
+				console.log("WORKING")
+			}
+
+
+		};
+	
+		xmlhttp.send();
+	}
+
+
+
+	</script>
+
+</head>
+<body>
+	<div id="EXPENSE CHECK"></div>
+
+
+	
+
+
+
+	<div>
+		<form > 
+        <p>CREATE YOUR NEW EXPENSE LIST</p>  
+        <!-- Create an element with mandatory name attribute, 
+        so that data can be transfer to the servlet using getParameter() -->
+        <p>Expense List Name:</p>  
+        <input type="text" name="expense_list" id="expenseTable"/>  
+        <button type="button" type="submit" onclick="createTable()">CREATE EXPENSE LIST</button> 
+    </form> 
+	</div>
+
+
+
+<div>
+		<form > 
+        <p>FIND YOUR EXISTING EXPENSE LIST</p>  
+        <p>Expense List Name:</p>  
+        <input type="text" name="expense_list" id="myTable"/>  
+        <button type="button"  onclick="findTable()">FIND EXPENSE LIST</button> 
+    </form> 
+</div>
+
+
+<div class="calculatiorBlocks" id ="costCalcDiv">
+<h3>ENTER EXPENSE</h3>
+<form>
+	<strong> TITLE</strong> <input type="text" id="itemId"></input><br></br>
+	<strong>AMOUNT</strong> <input type="text" id="costId"></input><br></br>
+	<br></br>
+	<button type="button" onclick="addAndLoad()"><strong>ADD EXPENSE</strong></button>
+</form></div>
+
+
+
+</body>
+</html>
