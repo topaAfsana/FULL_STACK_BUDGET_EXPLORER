@@ -38,7 +38,7 @@ function createTable(){
 			var xmlhttp_create= new XMLHttpRequest();
 
 			//ADD RECORD
-			var createTableUrl="http://localhost:8080/create_table";
+			var createTableUrl="http://52.91.249.153:8080/create_table";
 			var param="tableName="+mytable+"";
 			
 			xmlhttp_create.onreadystatechange = function() {
@@ -64,7 +64,7 @@ function findTable(){
 			var xmlhttp_find= new XMLHttpRequest();
 
 			//ADD RECORD
-			var findTableUrl="http://localhost:8080/find_table";
+			var findTableUrl="http://52.91.249.153:8080/find_table";
 			var param="tableName="+myQuerytable+"";
 			
 
@@ -117,7 +117,7 @@ function clearTable(){
 			var xmlhttp1= new XMLHttpRequest();
 
 			//ADD RECORD
-			var addRecordUrl="http://localhost:8080/add_record";
+			var addRecordUrl="http://52.91.249.153::8080/add_record";
 			var param="tableName="+myTable+"&expense="+myexpense+"&amount="+myamount+"";
 			
 			xmlhttp1.onreadystatechange = function() {
@@ -158,7 +158,7 @@ function loadPersons() {
 			var myQuerytable=document.querySelector("#myTable").value;
 			
 			//TOPAARTIFACT2
-		var baseurl="http://localhost:8080/showAllRecord";
+		var baseurl="http://52.91.249.153:8080/showAllRecord";
 		var xmlhttp= new XMLHttpRequest();
 		var param="tableName="+myQuerytable+"";
 		xmlhttp.open("GET",baseurl+"?"+param,true);
