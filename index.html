@@ -5,31 +5,18 @@
 
 <title>CONSUME REST-ORIGINAL</title>
 	<script>
+
+var host="http://localhost:8080"
+var tbl;
+
+
+		//TABLE HEADER
 		var tbltop=`<table class="ExpenseTable">
 				<tr><th>ID</th><th>EXPENSE</th><th>AMOUNT</th></tr>`;
-var tbl;
-// //=======
-// //WORKS WITHOUT PARAM
-// // 1.
-// 		function addRecord(){
-
-// 			var xmlhttp1= new XMLHttpRequest();
-
-// 			//ADD RECORD
-// 			var addRecordUrl="http://localhost:8080/add_record";
-			
-// 			xmlhttp1.onreadystatechange = function() {
-// 			if(xmlhttp1.readyState===4 & xmlhttp1.status===200){
-// 				// var resp = JSON.parse(xmlhttp1.responseText);	
-// 				// console.log("RESPONSE IS"+resp);
-// 			}}
-// xmlhttp1.open("GET",addRecordUrl+"/",true);
-// 			xmlhttp1.setRequestHeader('Content-Type', 'application/json');
-// 			xmlhttp1.send();
-// 		}
-// //=======
 
 
+
+//1.CREATE TABLE IN DB
 function createTable(){
 
 			 var mytable=document.querySelector("#expenseTable").value;
@@ -38,7 +25,8 @@ function createTable(){
 			var xmlhttp_create= new XMLHttpRequest();
 
 			//ADD RECORD
-			var createTableUrl="http://52.91.249.153:8080/create_table";
+			var createTableUrl= host+'/create_table';
+			console.log(createTableUrl);
 			var param="tableName="+mytable+"";
 			
 			xmlhttp_create.onreadystatechange = function() {
@@ -56,6 +44,8 @@ function createTable(){
 
 //=======
 
+
+//2.FIND TABLE FROM DB
 function findTable(){
 
 			 var myQuerytable=document.querySelector("#myTable").value;
@@ -64,7 +54,9 @@ function findTable(){
 			var xmlhttp_find= new XMLHttpRequest();
 
 			//ADD RECORD
-			var findTableUrl="http://52.91.249.153:8080/find_table";
+
+			var findTableUrl=host+"/find_table";
+
 			var param="tableName="+myQuerytable+"";
 			
 
@@ -99,13 +91,10 @@ function findTable(){
 		}
 
 		// ===
-function clearTable(){
-	
-	document.querySelector("div").innerHTML = tbltop;
-}
 
-//WORKS WITH PARAM
-1.
+
+
+//3.ADD RECORD IN THE TABLE IN DB
 		function addRecord(){
 
 			 var myexpense=document.querySelector("#itemId").value;
@@ -117,7 +106,8 @@ function clearTable(){
 			var xmlhttp1= new XMLHttpRequest();
 
 			//ADD RECORD
-			var addRecordUrl="http://52.91.249.153::8080/add_record";
+			var addRecordUrl=host+"/add_record";
+
 			var param="tableName="+myTable+"&expense="+myexpense+"&amount="+myamount+"";
 			
 			xmlhttp1.onreadystatechange = function() {
@@ -131,28 +121,11 @@ function clearTable(){
 			xmlhttp1.send(null);
 			document.getElementById('itemId').value= '';
 	 document.getElementById('costId').value= '';
-	 // document.querySelector("#myTable").value= '';
 		}
 // =======
 
-
 //=======
-		// 2.
-		
-	//=======
-	function addAndLoad(){
-		loadPersons();
-		addRecord();
-	}
-
-
-
-	window.onload= function(){
-		// loadPersons();
-		// addRecord();
-	}
-
-//=======
+//4.LOAD RECORD IN THE HTML VIEW
 function loadPersons() {
 
 			var myQuerytable=document.querySelector("#myTable").value;
@@ -197,6 +170,22 @@ function loadPersons() {
 	}
 
 
+	// 5.LOAD RECORD AND ADD RECORD FROM FIND TABLE
+	function addAndLoad(){
+		loadPersons();
+		addRecord();
+	}
+
+
+//=======
+//=======
+		
+	function clearTable(){
+	document.querySelector("div").innerHTML = tbltop;}		
+//=======
+
+
+
 
 	</script>
 
@@ -206,9 +195,6 @@ function loadPersons() {
 
 
 	
-
-
-
 	<div>
 		<form > 
         <p>CREATE YOUR NEW EXPENSE LIST</p>  
