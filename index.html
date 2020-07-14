@@ -54,7 +54,9 @@ function findTable(){
 			var xmlhttp_find= new XMLHttpRequest();
 
 			//ADD RECORD
+
 			var findTableUrl=host+"/find_table";
+
 			var param="tableName="+myQuerytable+"";
 			
 
@@ -72,7 +74,7 @@ function findTable(){
 				// 	alert("DONE-YOUR EXPENSE LIST DOES NOT EXIST;PLEASE CRAETE ONE")}
 				else { 
 					clearTable();
-					// alert("YOUR EXPENSE LIST DOES NOT EXIST;PLEASE CRAETE ONE;")
+					alert("YOUR EXPENSE LIST DOES NOT EXIST;PLEASE CRAETE ONE;")
 
 				};
 
@@ -81,6 +83,7 @@ function findTable(){
 			xmlhttp_find.open("GET",findTableUrl+"?"+param,true);
 			xmlhttp_find.setRequestHeader('Content-Type', 'application/json');
 			xmlhttp_find.send(null);
+	
 
 			
 			// var mytable=document.querySelector("#expenseTable").value= '';
@@ -104,6 +107,7 @@ function findTable(){
 
 			//ADD RECORD
 			var addRecordUrl=host+"/add_record";
+
 			var param="tableName="+myTable+"&expense="+myexpense+"&amount="+myamount+"";
 			
 			xmlhttp1.onreadystatechange = function() {
@@ -127,7 +131,7 @@ function loadPersons() {
 			var myQuerytable=document.querySelector("#myTable").value;
 			
 			//TOPAARTIFACT2
-		var baseurl="http://localhost:8080/showAllRecord";
+		var baseurl="http://52.91.249.153:8080/showAllRecord";
 		var xmlhttp= new XMLHttpRequest();
 		var param="tableName="+myQuerytable+"";
 		xmlhttp.open("GET",baseurl+"?"+param,true);
