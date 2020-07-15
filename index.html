@@ -5,15 +5,16 @@
 
 <title>CONSUME REST-ORIGINAL</title>
 	<script>
+		
+		//TABLE HEADER
+		var tbltop=`<table class="ExpenseTable">
+				<tr><th>ID</th><th>EXPENSE</th><th>AMOUNT</th></tr>`;
 
 //var host="http://localhost:8080";
 var host="https://127.0.0.1:8443";
 var tbl;
 
 
-		//TABLE HEADER
-		var tbltop=`<table class="ExpenseTable">
-				<tr><th>ID</th><th>EXPENSE</th><th>AMOUNT</th></tr>`;
 
 
 
@@ -126,6 +127,22 @@ function findTable(){
 // =======
 
 //=======
+
+
+
+	// 5.LOAD RECORD AND ADD RECORD FROM FIND TABLE
+	function addAndLoad(){
+		loadPersons();
+		addRecord();
+	}
+
+
+//=======
+//=======
+		
+	function clearTable(){
+	document.querySelector("div").innerHTML = tbltop;}		
+//=======
 //4.LOAD RECORD IN THE HTML VIEW
 function loadPersons() {
 
@@ -169,22 +186,6 @@ function loadPersons() {
 	
 		xmlhttp.send();
 	}
-
-
-	// 5.LOAD RECORD AND ADD RECORD FROM FIND TABLE
-	function addAndLoad(){
-		loadPersons();
-		addRecord();
-	}
-
-
-//=======
-//=======
-		
-	function clearTable(){
-	document.querySelector("div").innerHTML = tbltop;}		
-//=======
-
 
 
 
