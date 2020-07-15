@@ -154,7 +154,7 @@ function loadPersons() {
 			var myQuerytable=document.querySelector("#myTable").value;
 			
 			//TOPAARTIFACT2
-		var baseurl="http://52.91.249.153:8080/showAllRecord";
+		var baseurl=host+"/showAllRecord";
 		var xmlhttp= new XMLHttpRequest();
 		var param="tableName="+myQuerytable+"";
 		xmlhttp.open("GET",baseurl+"?"+param,true);
