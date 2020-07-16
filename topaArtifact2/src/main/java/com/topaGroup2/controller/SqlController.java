@@ -15,36 +15,45 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
+//@RequestMapping(value="/api")
 public class SqlController {
 
     @Autowired
     JdbcTemplate jdbc;
 
+
+    //CREATE CUSTOM OLD MODEL JDBC CONNECTION
     public Connection createDBConnection() throws ClassNotFoundException, SQLException{
-        String dbUrl = "jdbc:mysql://localhost:3306/TOPADB?serverTimezone=UTC";
+
 
         //Database Username
         String username = "root";
 
-        //Database Password
-        String password = "Tishan@2016";
+        //RDS DB INFO
+        String dbUrl = "jdbc:mysql://budget-explorer-db.ckult7yatbtp.us-east-1.rds.amazonaws.com:3306/TOPADB?serverTimezone=UTC";
+        String password = "TOPADBRDS";
 
-        //Load mysql jdbc driver
+        //LOCAL DB INFO
+        // String dbUrl = "jdbc:mysql://192.168.0.14:3306/TOPADB?serverTimezone=UTC";
+        // String password = "Tishan@2016";
+
+
+        //LOAD MYSQL JDBC DRIVER
         Class.forName("com.mysql.cj.jdbc.Driver");
 
-        //Create Connection to DB
+        //CREATE CONNECTION TO DB
         Connection con = DriverManager.getConnection(dbUrl, username, password);
-
-        //Create Statement Object
-
+        //RETURN THE CONNECTION WHEN THIS METHOD IS CALLED
         return con;
 
     }
 
+//REST RESOURCE END POINTS
 
 //1.CREATE TABLE-DONE
     @RequestMapping(value = "/create_table", method = RequestMethod.POST)
     public String createTable(@RequestParam() String tableName) {
+        //THIS METHOD USED SPRING BOOT JDBC TEMPLATE
         jdbc.execute(" CREATE TABLE `TOPADB`.`" + tableName + "` (\n" +
                 "  `id` INT NOT NULL AUTO_INCREMENT,\n" +
                 "  `expense` VARCHAR(45) NOT NULL,\n" +
@@ -107,10 +116,10 @@ public class SqlController {
         catch (ClassNotFoundException | SQLException sqlEx)
         {System.out.println(sqlEx.getMessage());}
 
-        System.out.println(list);
+//        System.out.println(list);
         for(String mytab:list){
             if(mytab.equalsIgnoreCase(tableName)){
-                System.out.println("TABLE EXIST");
+//                System.out.println("TABLE EXIST");
                 return "FOUND";
 
             } }
@@ -144,18 +153,19 @@ public class SqlController {
 //        return "RECORD ADDED";
 //    }
 
-
+//NOT USED:EXPERIMENT
     @RequestMapping("/getAllRecord")
     public void index() throws ClassNotFoundException, SQLException {
 
         //Connection URL Syntax: "jdbc:mysql://ipaddress:portnumber/db_name"
-        String dbUrl = "jdbc:mysql://localhost:3306/TOPADB?serverTimezone=UTC";
+        String dbUrl = "jdbc:mysql://budget-explorer-db.ckult7yatbtp.us-east-1.rds.amazonaws.com:3306/TOPADB?serverTimezone=UTC";
 
         //Database Username
         String username = "root";
 
         //Database Password
-        String password = "Tishan@2016";
+//        String password = "Tishan@2016";
+        String password = "TOPADBRDS";
 
         //Query to Execute
         String query = "select *  from FEBRUARY;";
@@ -244,11 +254,13 @@ public class SqlController {
 
 
 //4.TOTAL OF SUM
-//    @RequestMapping("/test")
-//    public String index1(){
+    @RequestMapping("/test")
+    public String index1(){
 //        jdbc.execute("SELECT SUM(ID) FROM TOPA_TABLE");
-////        jdbc.execute("DESCRIBE pet");
-//        return"SUMATION SUCCESSFULL";
-//    }
+//        jdbc.execute("DESCRIBE pet");
+        return"SUBMIT SUCCESSFULL";
+    }
+
+    //TOPAARTIFACT+RESTCONSUME>JDBC
 
 }
